@@ -1,3 +1,7 @@
+2001-05-07  Jochen Wiedmann  <joe@ispsoft.de> (0.07)
+
+	* Added two bug fixes from Chee-Wai Yeung <cheewai@cs.ust.hk>.
+
 2001-02-25  Jochen Wiedmann  <joe@ispsoft.de> (0.06)
 
 	* Added Net::Nessus::Message::ERROR.

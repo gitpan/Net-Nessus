@@ -37,7 +37,7 @@ require Net::Nessus::Message;
 package Net::Nessus::Client;
 
 # We are a subclass of Net::Cmd.
-$Net::Nessus::Client::VERSION = '0.06';
+$Net::Nessus::Client::VERSION = '0.07';
 
 
 =pod
@@ -248,7 +248,7 @@ timeout is given, then the default timeout will be used.
 sub GetMsg {
     my $self = shift; my $type = shift; my $timeout = shift;
     Net::Nessus::Message->new('sender' => 'SERVER',
-			      'type' => shift,
+			      'type' => $type,
 			      'socket' => $self->{'socket'},
 			      'timeout' => $timeout);
 }

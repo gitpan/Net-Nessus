@@ -668,9 +668,9 @@ sub Status { shift->[2] }
 
 =pod
 
-=item STOP_WHOLE_MESSAGE
+=item STOP_WHOLE_TEST
 
-  $msg = Net::Nessus::Message::STOP_WHOLE_MESSAGE->new([]);
+  $msg = Net::Nessus::Message::STOP_WHOLE_TEST->new([]);
 
 This message, available with NTP 1.1 only, can be used to stop the
 whole test, unlike the STOP_ATTACK message which is stopping a single
@@ -681,9 +681,9 @@ are available.
 
 =cut
 
-package Net::Nessus::Message::STOP_WHOLE_MESSAGE;
+package Net::Nessus::Message::STOP_WHOLE_TEST;
 
-@Net::Nessus::Message::STOP_WHOLE_MESSAGE::ISA =
+@Net::Nessus::Message::STOP_WHOLE_TEST::ISA =
     qw(Net::Nessus::Message::SingleLine);
 
 
