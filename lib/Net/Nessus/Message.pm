@@ -15,6 +15,10 @@
 #				Phone: +49 7123 14887
 #				Email: joe@ispsoft.de
 #
+#       Copyright (C) 2004      Tiago Stock
+#                               Email: tstock@tiago.com
+#
+#
 #
 #   All rights reserved.
 #
@@ -22,7 +26,6 @@
 #   License or the Artistic License, as specified in the Perl README file.
 #
 #
-#   $Id: Message.pm,v 1.4 1999/01/29 20:15:45 joe Exp $
 #
 ############################################################################
 
@@ -35,7 +38,7 @@ require Carp;
 package Net::Nessus::Message;
 
 # We are a subclass of Net::Cmd.
-$Net::Nessus::Message::VERSION = '0.03';
+$Net::Nessus::Message::VERSION = '0.04';
 
 
 =pod
@@ -54,18 +57,19 @@ $Net::Nessus::Message::VERSION = '0.03';
 
 =head1 DESCRIPTION
 
-The Nessus client and server are communicating with each other by
+The Nessus client and server communicate with each other by
 sending and receiving messages. The message format is described in
-the files F<ntp_white_paper.txt> (Protocol version 1.0) and
-F<ntp_white_paper_11.txt> (Protocol version 1.1) of the Nessus
-distribution. In short messages consist of field lists, the
-fields being separated by the string ' <|> ' (including the spaces,
-not including the quotes). The first and the last lines are the
-words I<SERVER> or I<CLIENT>, depending on who's sending a message.
+the files F<ntp_white_paper.txt> (Protocol version 1.0),
+F<ntp_white_paper_11.txt> (Protocol version 1.1) and
+F<ntp_extensions.txt> in the Nessus distribution. 
+Messages consist of field lists, the fields being separated by the 
+string ' <|> ' (including the spaces, not including the quotes). 
+The first and the last lines are the words I<SERVER> or I<CLIENT>, 
+depending on who's sending a message.
 
 However, there are not only single line messages: Some messages, in
-particular the plugin and rule lists or the nessus preference lists do
-contain of multiple lines.
+particular the plugin and rule lists or the nessus preference lists
+contain multiple lines.
 
 The Net::Nessus::Message class is abstract: Constructors never return
 instances of this class, but instances of subclasses. For example,
@@ -130,7 +134,7 @@ sub new {
 	$type =~ s/\s+\<\|\>$//;
     }
     die "Unknown message type" unless defined($type);
-    die "Wrong message type, expected $attr{'type'}"
+    die "Wrong message type, expected $attr{'type'}, received $type"
 	if defined($attr{'type'}) and $attr{'type'} ne $type;
 
     my $class = (ref($self) or $self);
@@ -223,11 +227,9 @@ sub print {
 
 =pod
 
-Available messages are:
+=head2 Available messages are:
 
-=over 8
-
-=item PLUGIN_LIST
+=head3 PLUGIN_LIST
 
   $msg = Net::Nessus::Message::PLUGIN_LIST(\@plugins);
   $msg->print($sender, $socket);
@@ -284,9 +286,7 @@ sub Plugins { shift->{'lines'} }
 
 =pod
 
-=item PREFERENCES
-
-=item PREFERENCES_ERRORS
+=head3 PREFERENCES, PREFERENCES_ERRORS
 
   my $msg = Net::Nessus::Message::PREFERENCES->new(\%attr);
   my $msg = Net::Nessus::Message::PREFERENCES_ERRORS->new(\%attr);
@@ -347,7 +347,7 @@ package Net::Nessus::Message::PREFERENCES_ERRORS;
 
 =pod
 
-=item RULES
+=head3 RULES
 
   $msg = Net::Nessus::Message::RULES(\@rules);
 
@@ -381,9 +381,7 @@ sub Rules { shift->{'lines'} }
 
 =pod
 
-=item HOLE
-
-=item INFO
+=head3 INFO, HOLE
 
   $msg = Net::Nessus::Message::HOLE->new
       ([$host, $port, $description, $service, $proto]);
@@ -479,7 +477,7 @@ package Net::Nessus::Message::INFO;
 
 =pod
 
-=item PORT
+=head3 PORT
 
   $msg = Net::Nessus::Message::PORT->new([$host, $port]);
 
@@ -502,7 +500,7 @@ sub Port { shift->[1] }
 
 =pod
 
-=item ERROR
+=head3 ERROR
 
 The ERROR message is used by the Nessus server to report problems.
 Its attributes are:    
@@ -519,7 +517,7 @@ sub ErrMsg { shift->[0] }
 
 =pod
 
-=item NEW_ATTACK
+=head3 NEW_ATTACK
 
   # NTP 1.0
   $msg = Net::Nessus::Message::NEW_ATTACI->new
@@ -572,7 +570,7 @@ sub Host { shift->[4] }
 
 =pod
 
-=item STAT
+=head3 STAT
 
   $msg = Net::Nessus::Message::STAT->new([$host, $port]);
 
@@ -593,7 +591,7 @@ package Net::Nessus::Message::STAT;
 
 =pod
 
-=item STOP_ATTACK
+=head3 STOP_ATTACK
 
   $msg = Net::Nessus::Message::STOP_ATTACK->new([$host]);
 
@@ -613,7 +611,7 @@ sub Host { shift->[0] }
 
 =pod
 
-=item PLUGINS_ORDER
+=head3 PLUGINS_ORDER
 
   $msg = Net::Nessus::Message::PLUGINS_ORDER->new([$plugins]);
 
@@ -638,7 +636,7 @@ sub Plugins { split(/;/, shift->[0]) }
 
 =pod
 
-=item STATUS
+=head3 STATUS
 
   $msg = Net::Nessus::Message::STATUS->new([$host, $action, $status]);
 
@@ -668,7 +666,7 @@ sub Status { shift->[2] }
 
 =pod
 
-=item STOP_WHOLE_TEST
+=head3 STOP_WHOLE_TEST
 
   $msg = Net::Nessus::Message::STOP_WHOLE_TEST->new([]);
 
@@ -689,13 +687,27 @@ package Net::Nessus::Message::STOP_WHOLE_TEST;
 
 =pod
 
-=item BYE
+=head3 FINISHED
+
+This message is sent by the server if the preference ntp_opt_show_end has 
+been specified
+
+=cut
+
+package Net::Nessus::Message::FINISHED;
+                                                                                
+@Net::Nessus::Message::FINISHED::ISA = qw(Net::Nessus::Message::SingleLine);
+                                                                                
+sub Host { shift->[0] }
+
+=pod
+
+=head3 BYE
 
   $msg = Net::Nessus::Message::BYE->new([]);
 
 This message is sent by the server to indicate that a scan is done.
 
-=back
 
 =cut
 
@@ -715,6 +727,10 @@ The Net::Nessus package is
 
 			Phone: +49 7123 14887
 			Email: joe@ispsoft.de
+
+  Copyright (C) 2004    Tiago Stock
+                        Email: tstock@tiago.com
+
   All rights reserved.
 
 You may distribute under the terms of either the GNU General Public

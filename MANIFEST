@@ -10,3 +10,4 @@ nessusc.PL			Net::Nessus::Client frontend
 t/base.t			Base test (Loading Modules)
 t/client.t			Client test (Talking to the server)
 test.pl				Test script doing a Nessus scan
+META.yml                                 Module meta-data (added by MakeMaker)

@@ -1,3 +1,8 @@
+2004-10-23  Tiago Stock <tstock@tiago.com> (0.09)
+
+	* Added Net::Nessus::Message::FINISHED
+	* Change defaul port from 3001 to 1241
+
 2001-06-08  Jochen Wiedmann  <joe@ispsoft.de> (0.07)
 
 	* lib/Net/Nessus/Client.pm (new): Telnetmode is now set

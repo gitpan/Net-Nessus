@@ -56,7 +56,7 @@ print qq[
 This script can launch a Nessus Client for you. You can do the same from
 the command line later. Use it by executing the 'nessusc' script, for
 example the following would be used to advice the Nessus server on
-host 127.0.0.1, port 3001 to attack host 192.168.1.4, you would use
+host 127.0.0.1, port 1241 to attack host 192.168.1.4, you would use
 
     nessusc --target="192.168.1.4" --host=$o->{'nessus-host'}
        --port=$o->{'nessus-port'} --user=$o->{'nessus-user'}

@@ -91,7 +91,7 @@ foreach my $proto ('1.1', '1.2') {
 	Test(keys(%{$msg->Prefs()}) == 0);
 	eval { $client->Print($msg) };
 	Test(!$@) or print "$@\n";
-	$msg = $client->GetMsg('PREFERENCES');
+	$msg = $client->GetMsg('PREFERENCES_ERRORS');
 	Test($msg);
 	Test(keys(%{$msg->Prefs()}) == 0);
     } else {

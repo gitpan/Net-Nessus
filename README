@@ -5,7 +5,7 @@ SYNOPSIS
         # Connect to the Nessus Server
         require Net::Nessus::Client;
         my $client = Net::Nessus::Client->new('host' => 'localhost',
-                                              'port' => '3001',
+                                              'port' => '1241',
                                               'user' => 'joe',
                                               'password' => 'my_password');
 
@@ -27,7 +27,6 @@ DESCRIPTION
 
 METHOD INTERFACE
   Creating a client object
-
       require Net::Nessus::Client;
       my $client = Net::Nessus::Client->new(%attr);
 
@@ -39,10 +38,10 @@ METHOD INTERFACE
 
     host
     port    Host name (or IP address) and port number of the Nessus servers
-            machine. The defaults are *localhost* and *3001*, as accepted by
+            machine. The defaults are *localhost* and *1241*, as accepted by
             the IO::Socket modules *new* constructor. You may as well use
-            other attributes of this constructor, for example *Timeout*. the
-            IO::Socket manpage.
+            other attributes of this constructor, for example *Timeout*.
+            IO::Socket.
 
     user
     password
@@ -65,7 +64,6 @@ METHOD INTERFACE
                                             'ntp_proto' => '1.0');
 
   Reading the plugin list
-
       my $plugins = $self->Plugins();
       my $prefs = $self->Prefs();
       my $rules = $self->Rules();
@@ -96,7 +94,6 @@ METHOD INTERFACE
       }
 
   Sending a message to the server
-
       $client->Print($msg);
 
     (Instance Method) The print method is used for sending a previously
@@ -110,7 +107,6 @@ METHOD INTERFACE
       $client->print($msg);
 
   Reading a message from the server
-
       $msg = $client->GetMsg($type, $timeout);
 
     (Instance method) The *GetMsg* method is reading a message from the
@@ -123,7 +119,6 @@ METHOD INTERFACE
     timeout is given, then the default timeout will be used.
 
   Launching an attack
-
       my $messages = $client->Attack(@hosts);
       $client->ShowSTATUS($msg);
       $client->ShowPORT($msg);
@@ -162,13 +157,15 @@ AUTHOR AND COPYRIGHT
 
                             Phone: +49 7123 14887
                             Email: joe@ispsoft.de
+
+      Copyright (C) 2004    Tiago Stock
+                            Email: tstock@tiago.com
+
       All rights reserved.
 
     You may distribute under the terms of either the GNU General Public
     License or the Artistic License, as specified in the Perl README file.
 
-    $Id: Client.pm,v 1.5 1999/01/31 14:03:19 joe Exp $
-
 SEE ALSO
-    the Net::Nessus::Client(3) manpage
+    Net::Nessus::Client(3)
 

@@ -98,7 +98,7 @@ if (!$cfg  or  $opt_config) {
 	       ($cfg->{'nessus_host'} or 'localhost'));
     $cfg->{'nessus_port'} =
 	prompt("Port number of Nessus server: ",
-	       ($cfg->{'nessus_port'} or '3001'));
+	       ($cfg->{'nessus_port'} or '1241'));
     $cfg->{'nessus_user'} =
 	prompt("Nessus user name: ",
 	       ($cfg->{'nessus_user'} or 'none'));

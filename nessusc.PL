@@ -68,7 +68,7 @@ Possible options are:
   --host=<host>		 At startup the program connects to the Nessus server
   --port=<port>		 running at the machine <host>, port <port> as user
   --user=<user>          <user> with password <password>. The default host
-  --password=<password>	 is localhost, port 3001, no defaults for user and
+  --password=<password>	 is localhost, port 1241, no defaults for user and
 			 password are set, you must supply these values.
   --proto=<proto>	 Use NTP version <proto>; by default version 1.1
 			 is used. This may change in the future, depending
@@ -151,7 +151,7 @@ package main;
 {
     my $o = {
 	'host' => '127.0.0.1',
-	'port' => 3001,
+	'port' => 1241,
         'proto' => '1.1',
         'help' => \&Usage
     };

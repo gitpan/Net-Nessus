@@ -15,6 +15,8 @@
 #				Phone: +49 7123 14887
 #				Email: joe@ispsoft.de
 #
+#       Copyright (C) 2004      Tiago Stock
+#                               Email: tstock@tiago.com 
 #
 #   All rights reserved.
 #
@@ -22,7 +24,6 @@
 #   License or the Artistic License, as specified in the Perl README file.
 #
 #
-#   $Id: Client.pm,v 1.5 1999/01/31 14:03:19 joe Exp $
 #
 ############################################################################
 
@@ -37,7 +38,7 @@ require Net::Nessus::Message;
 package Net::Nessus::Client;
 
 # We are a subclass of Net::Cmd.
-$Net::Nessus::Client::VERSION = '0.08';
+$Net::Nessus::Client::VERSION = '0.09';
 
 
 =pod
@@ -51,7 +52,7 @@ $Net::Nessus::Client::VERSION = '0.08';
     # Connect to the Nessus Server
     require Net::Nessus::Client;
     my $client = Net::Nessus::Client->new('host' => 'localhost',
-					  'port' => '3001',
+					  'port' => '1241',
 					  'user' => 'joe',
 					  'password' => 'my_password');
 
@@ -93,7 +94,7 @@ A Perl exception is thrown in case of trouble.
 =item port
 
 Host name (or IP address) and port number of the Nessus servers machine.
-The defaults are I<localhost> and I<3001>, as accepted by the IO::Socket
+The defaults are I<localhost> and I<1241>, as accepted by the IO::Socket
 modules I<new> constructor. You may as well use other attributes of this
 constructor, for example I<Timeout>. L<IO::Socket>.
 
@@ -130,7 +131,7 @@ sub new {
     my %attr = @_;
 
     my $host = $attr{'host'} or Carp::croak("Missing Nessus host");
-    my $port = $attr{'port'} || 3001;
+    my $port = $attr{'port'} || 1241;
     my $proto = $attr{'ntp_proto'} || '1.1';
     my $user = $attr{'user'} or Carp::croak("Missing user name");
     my $pass = $attr{'password'} or Carp::croak("Missing password");
@@ -321,6 +322,8 @@ sub ShowBYE { }
 
 sub ShowERROR { }
 
+sub ShowFINISHED { }
+
 sub Attack {
     my $self = shift; my @hosts = @_;
     $self->{'messages'} = {};
@@ -355,12 +358,15 @@ The Net::Nessus package is
 
 			Phone: +49 7123 14887
 			Email: joe@ispsoft.de
+
+  Copyright (C) 2004    Tiago Stock
+                        Email: tstock@tiago.com
+
   All rights reserved.
 
 You may distribute under the terms of either the GNU General Public
 License or the Artistic License, as specified in the Perl README file.
 
-$Id: Client.pm,v 1.5 1999/01/31 14:03:19 joe Exp $
 
 =head1 SEE ALSO
 
