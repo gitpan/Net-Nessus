@@ -1,3 +1,7 @@
+2001-02-25  Jochen Wiedmann  <joe@ispsoft.de> (0.06)
+
+	* Added Net::Nessus::Message::ERROR.
+
 1999-01-31  Jochen Wiedmann  <joe@ispsoft.de> (0.05)
 
 	* lib/Net/Nessus/Client.pm (Attack): Added the possibility

@@ -35,7 +35,7 @@ require Carp;
 package Net::Nessus::Message;
 
 # We are a subclass of Net::Cmd.
-$Net::Nessus::Message::VERSION = '0.02';
+$Net::Nessus::Message::VERSION = '0.03';
 
 
 =pod
@@ -499,6 +499,23 @@ package Net::Nessus::Message::PORT;
 sub Host { shift->[0] }
 sub Port { shift->[1] }
 
+
+=pod
+
+=item ERROR
+
+The ERROR message is used by the Nessus server to report problems.
+Its attributes are:    
+
+  $msg->ErrMsg
+
+=cut
+
+package Net::Nessus::Message::ERROR;
+
+@Net::Nessus::Message::ERROR::ISA = qw(Net::Nessus::Message::SingleLine);
+
+sub ErrMsg { shift->[0] }
 
 =pod
 

@@ -37,7 +37,7 @@ require Net::Nessus::Message;
 package Net::Nessus::Client;
 
 # We are a subclass of Net::Cmd.
-$Net::Nessus::Client::VERSION = '0.05';
+$Net::Nessus::Client::VERSION = '0.06';
 
 
 =pod
@@ -263,6 +263,7 @@ sub GetMsg {
   $client->ShowINFO($msg);
   $client->ShowPLUGINS_ORDER($msg);
   $client->ShowBYE($msg);
+  $client->ShowERROR($msg);
 
 (Instance Methods) An attack can be launched by calling the clients
 I<Attack> method. While the attack is running, the Nessus server will
@@ -316,6 +317,8 @@ sub ShowHOLE {
 }
 
 sub ShowBYE { }
+
+sub ShowERROR { }
 
 sub Attack {
     my $self = shift; my @hosts = @_;
