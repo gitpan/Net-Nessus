@@ -22,7 +22,7 @@
 #   License or the Artistic License, as specified in the Perl README file.
 #
 #
-#   $Id: Client.pm,v 1.4 1999/01/29 20:15:45 joe Exp $
+#   $Id: Client.pm,v 1.5 1999/01/31 14:03:19 joe Exp $
 #
 ############################################################################
 
@@ -37,7 +37,7 @@ require Net::Nessus::Message;
 package Net::Nessus::Client;
 
 # We are a subclass of Net::Cmd.
-$Net::Nessus::Client::VERSION = '0.04';
+$Net::Nessus::Client::VERSION = '0.05';
 
 
 =pod
@@ -256,7 +256,7 @@ sub GetMsg {
 
 =head2 Launching an attack
 
-  my $messages = $client->Attack($host);
+  my $messages = $client->Attack(@hosts);
   $client->ShowSTATUS($msg);
   $client->ShowPORT($msg);
   $client->ShowHOLE($msg);
@@ -280,6 +280,9 @@ FTP port as follows:
 
   my @ftp_holes = @{$messages->{'21'}->{'PORT'}};
 
+Finally the hosts are used to build a top hash ref, the values being
+as described above for the respective host.
+
 =cut
 
 sub ShowPLUGINS_ORDER {
@@ -292,13 +295,14 @@ sub ShowSTATUS { }
 sub ShowPORT {
     my $self = shift; my $msg = shift; my $array = shift || 'PORT';
     my $port = $msg->Port() || 'general';
+    my $host = $msg->Host();
     if ($port =~ /\S+\s+\((\d+)\/\S+\)/) {
 	$port = $1;
     }
     my $messages = $self->{'messages'};
-    $messages->{$port} = { 'PORT' => [], 'INFO' => [], 'HOLE' => [] }
-	unless exists($messages->{$port});
-    push(@{$messages->{$port}->{$array}}, $msg);
+    $messages->{$host}->{$port} = { 'PORT' => [], 'INFO' => [], 'HOLE' => [] }
+	unless exists($messages->{$host}->{$port});
+    push(@{$messages->{$host}->{$port}->{$array}}, $msg);
 }
 
 sub ShowINFO {
@@ -314,10 +318,10 @@ sub ShowHOLE {
 sub ShowBYE { }
 
 sub Attack {
-    my $self = shift; my $host = shift;
+    my $self = shift; my @hosts = @_;
     $self->{'messages'} = {};
     $self->{'plugins_order'} = undef;
-    my $msg = Net::Nessus::Message::NEW_ATTACK->new([$host]);
+    my $msg = Net::Nessus::Message::NEW_ATTACK->new([join(",", @hosts)]);
     $self->Print($msg);
     while ($msg = $self->GetMsg()) {
 	my $class = ref($msg);
@@ -352,7 +356,7 @@ The Net::Nessus package is
 You may distribute under the terms of either the GNU General Public
 License or the Artistic License, as specified in the Perl README file.
 
-$Id: Client.pm,v 1.4 1999/01/29 20:15:45 joe Exp $
+$Id: Client.pm,v 1.5 1999/01/31 14:03:19 joe Exp $
 
 =head1 SEE ALSO
 

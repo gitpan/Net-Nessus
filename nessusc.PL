@@ -28,7 +28,7 @@ my $script = <<'END_OF_NESSUS_PL';
 #   License or the Artistic License, as specified in the Perl README file.
 #
 #
-#   $Id: nessusc.PL,v 1.1 1999/01/29 20:15:39 joe Exp $
+#   $Id: nessusc.PL,v 1.2 1999/01/31 14:03:17 joe Exp $
 #
 ############################################################################
 
@@ -196,7 +196,7 @@ package main;
 	    }
 	    print "\n";
 	}
-	$done = 1;	
+	$done = 1;
     }
     if ($o->{'prefs'}) {
 	print "\nPreference list:\n\n";
@@ -244,24 +244,27 @@ package main;
 	    exit 1;
 	}
 
-	foreach my $key ( sort { ($a eq 'general') ? 1 :
-				 ($b eq 'general') ? -1 :
-				     $a <=> $b } keys %$messages) {
-	    my $port_hash = $messages->{$key};
-	    if ($key eq 'general') {
-		print "\nGeneral problems detected:\n";
-	    } else {
-		print "\nDetected port $key\n";
-	    }
-	    foreach my $hole (@{$port_hash->{'HOLE'}}) {
-		print "Detected hole: ", $hole->Description(), "\n";
-		print "               Scan-ID: ", $hole->ScanID(), "\n"
-		    if defined($hole->ScanID());
-	    }
-	    foreach my $info (@{$port_hash->{'INFO'}}) {
-		print "Warning: ", $info->Description(), "\n";
-		print "               Scan-ID: ", $info->ScanID(), "\n"
-		    if defined($info->ScanID());
+	while (my($host_var, $host_messages) = each %$messages) {
+	    print "\n\nReport for $host_var:\n\n";
+	    foreach my $key ( sort { ($a eq 'general') ? 1 :
+				      ($b eq 'general') ? -1 :
+				       $a <=> $b } keys %$host_messages) {
+	        my $port_hash = $host_messages->{$key};
+	        if ($key eq 'general') {
+		    print "\nGeneral problems detected:\n";
+	        } else {
+		    print "\nDetected port $key\n";
+	        }
+	        foreach my $hole (@{$port_hash->{'HOLE'}}) {
+		    print "Detected hole: ", $hole->Description(), "\n";
+		    print "               Scan-ID: ", $hole->ScanID(), "\n"
+		        if defined($hole->ScanID());
+	        }
+	        foreach my $info (@{$port_hash->{'INFO'}}) {
+		    print "Warning: ", $info->Description(), "\n";
+		    print "               Scan-ID: ", $info->ScanID(), "\n"
+		        if defined($info->ScanID());
+		}
 	    }
 	}
 
