@@ -37,7 +37,7 @@ require Net::Nessus::Message;
 package Net::Nessus::Client;
 
 # We are a subclass of Net::Cmd.
-$Net::Nessus::Client::VERSION = '0.07';
+$Net::Nessus::Client::VERSION = '0.08';
 
 
 =pod
@@ -141,6 +141,7 @@ sub new {
 			 'Dump_Log' => $attr{'Dump_Log'},
 			 'Input_Log' => $attr{'Input_Log'},
 			 'Output_Log' => $attr{'Output_Log'},
+			 'Telnetmode' => 0,
 			 'Timeout' => ($attr{'Timeout'} || 300))
 	    or Carp::croak("Cannot connect: $!");
 

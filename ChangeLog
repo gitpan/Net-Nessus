@@ -1,3 +1,8 @@
+2001-06-08  Jochen Wiedmann  <joe@ispsoft.de> (0.07)
+
+	* lib/Net/Nessus/Client.pm (new): Telnetmode is now set
+	  to 0. (Chee-Wai Yeung <cheewai@cs.ust.hk>)
+
 2001-05-07  Jochen Wiedmann  <joe@ispsoft.de> (0.07)
 
 	* Added two bug fixes from Chee-Wai Yeung <cheewai@cs.ust.hk>.
